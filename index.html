@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chiffres de 0 à 100</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            text-align: center;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        td {
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        @media (max-width: 600px) {
+            td {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <label for="languageSelector">Choisir une langue :</label>
+    <select id="languageSelector">
+        <option value="fr">Français</option>
+        <option value="en">Anglais</option>
+        <option value="ar">Arabe</option>
+    </select>
+
+    <table id="numbersTable">
+        <thead>
+            <tr>
+                <th>Chiffre</th>
+                <th>En Lettres</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <!-- Le contenu sera inséré ici par JavaScript -->
+        </tbody>
+    </table>
+
+    <script>
+        const chiffresEnLettresFR = [
+            'zéro', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf',
+            'dix', 'onze', 'douze', 'treize', 'quatorze', 'quinze', 'seize', 'dix-sept', 'dix-huit', 'dix-neuf', 
+            'vingt', 'vingt-et-un', 'vingt-deux', 'vingt-trois', 'vingt-quatre', 'vingt-cinq', 'vingt-six', 'vingt-sept', 'vingt-huit', 'vingt-neuf',
+            'trente', 'trente-et-un', 'trente-deux', 'trente-trois', 'trente-quatre', 'trente-cinq', 'trente-six', 'trente-sept', 'trente-huit', 'trente-neuf',
+            'quarante', 'quarante-et-un', 'quarante-deux', 'quarante-trois', 'quarante-quatre', 'quarante-cinq', 'quarante-six', 'quarante-sept', 'quarante-huit', 'quarante-neuf',
+            'cinquante', 'cinquante-et-un', 'cinquante-deux', 'cinquante-trois', 'cinquante-quatre', 'cinquante-cinq', 'cinquante-six', 'cinquante-sept', 'cinquante-huit', 'cinquante-neuf',
+            'soixante', 'soixante-et-un', 'soixante-deux', 'soixante-trois', 'soixante-quatre', 'soixante-cinq', 'soixante-six', 'soixante-sept', 'soixante-huit', 'soixante-neuf',
+            'soixante-dix', 'soixante-et-onze', 'soixante-douze', 'soixante-treize', 'soixante-quatorze', 'soixante-quinze', 'soixante-seize', 'soixante-dix-sept', 'soixante-dix-huit', 'soixante-dix-neuf',
+            'quatre-vingts', 'quatre-vingt-un', 'quatre-vingt-deux', 'quatre-vingt-trois', 'quatre-vingt-quatre', 'quatre-vingt-cinq', 'quatre-vingt-six', 'quatre-vingt-sept', 'quatre-vingt-huit', 'quatre-vingt-neuf',
+            'quatre-vingt-dix', 'quatre-vingt-onze', 'quatre-vingt-douze', 'quatre-vingt-treize', 'quatre-vingt-quatorze', 'quatre-vingt-quinze', 'quatre-vingt-seize', 'quatre-vingt-dix-sept', 'quatre-vingt-dix-huit', 'quatre-vingt-dix-neuf', 'cent'
+        ];
+
+        const chiffresEnLettresEN = [
+            'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
+            'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 
+            'twenty', 'twenty-one', 'twenty-two', 'twenty-three', 'twenty-four', 'twenty-five', 'twenty-six', 'twenty-seven', 'twenty-eight', 'twenty-nine',
+            'thirty', 'thirty-one', 'thirty-two', 'thirty-three', 'thirty-four', 'thirty-five', 'thirty-six', 'thirty-seven', 'thirty-eight', 'thirty-nine',
+            'forty', 'forty-one', 'forty-two', 'forty-three', 'forty-four', 'forty-five', 'forty-six', 'forty-seven', 'forty-eight', 'forty-nine',
+            'fifty', 'fifty-one', 'fifty-two', 'fifty-three', 'fifty-four', 'fifty-five', 'fifty-six', 'fifty-seven', 'fifty-eight', 'fifty-nine',
+            'sixty', 'sixty-one', 'sixty-two', 'sixty-three', 'sixty-four', 'sixty-five', 'sixty-six', 'sixty-seven', 'sixty-eight', 'sixty-nine',
+            'seventy', 'seventy-one', 'seventy-two', 'seventy-three', 'seventy-four', 'seventy-five', 'seventy-six', 'seventy-seven', 'seventy-eight', 'seventy-nine',
+            'eighty', 'eighty-one', 'eighty-two', 'eighty-three', 'eighty-four', 'eighty-five', 'eighty-six', 'eighty-seven', 'eighty-eight', 'eighty-nine',
+            'ninety', 'ninety-one', 'ninety-two', 'ninety-three', 'ninety-four', 'ninety-five', 'ninety-six', 'ninety-seven', 'ninety-eight', 'ninety-nine', 'one hundred'
+        ];
+
+        const chiffresEnLettresAR = [
+            'صفر', 'واحد', 'اثنان', 'ثلاثة', 'أربعة', 'خمسة', 'ستة', 'سبعة', 'ثمانية', 'تسعة',
+            'عشرة', 'أحد عشر', 'اثنا عشر', 'ثلاثة عشر', 'أربعة عشر', 'خمسة عشر', 'ستة عشر', 'سبعة عشر', 'ثمانية عشر', 'تسعة عشر', 
+            'عشرون', 'واحد وعشرون', 'اثنان وعشرون', 'ثلاثة وعشرون', 'أربعة وعشرون', 'خمسة وعشرون', 'ستة وعشرون', 'سبعة وعشرون', 'ثمانية وعشرون', 'تسعة وعشرون',
+            'ثلاثون', 'واحد وثلاثون', 'اثنان وثلاثون', 'ثلاثة وثلاثون', 'أربعة وثلاثون', 'خمسة وثلاثون', 'ستة وثلاثون', 'سبعة وثلاثون', 'ثمانية وثلاثون', 'تسعة وثلاثون',
+            'أربعون', 'واحد وأربعون', 'اثنان وأربعون', 'ثلاثة وأربعون', 'أربعة وأربعون', 'خمسة وأربعون', 'ستة وأربعون', 'سبعة وأربعون', 'ثمانية وأربعون', 'تسعة وأربعون',
+            'خمسون', 'واحد وخمسون', 'اثنان وخمسون', 'ثلاثة وخمسون', 'أربعة وخمسون', 'خمسة وخمسون', 'ستة وخمسون', 'سبعة وخمسون', 'ثمانية وخمسون', 'تسعة وخمسون',
+            'ستون', 'واحد وستون', 'اثنان وستون', 'ثلاثة وستون', 'أربعة وستون', 'خمسة وستون', 'ستة وستون', 'سبعة وستون', 'ثمانية وستون', 'تسعة وستون',
+            'سبعون', 'واحد وسبعون', 'اثنان وسبعون', 'ثلاثة وسبعون', 'أربعة وسبعون', 'خمسة وسبعون', 'ستة وسبعون', 'سبعة وسبعون', 'ثمانية وسبعون', 'تسعة وسبعون',
+            'ثمانون', 'واحد وثمانون', 'اثنان وثمانون', 'ثلاثة وثمانون', 'أربعة وثمانون', 'خمسة وثمانون', 'ستة وثمانون', 'سبعة وثمانون', 'ثمانية وثمانون', 'تسعة وثمانون',
+            'تسعون', 'واحد وتسعون', 'اثنان وتسعون', 'ثلاثة وتسعون', 'أربعة وتسعون', 'خمسة وتسعون', 'ستة وتسعون', 'سبعة وتسعون', 'ثمانية وتسعون', 'تسعة وتسعون', 'مائة'
+        ];
+
+        const tableBody = document.getElementById("tableBody");
+        let currentLang = 'fr';  // Par défaut en français
+
+        // Fonction pour lire le chiffre dans la langue choisie
+        function lireChiffre(chiffre, lang) {
+            const synth = window.speechSynthesis;
+            const utterThis = new SpeechSynthesisUtterance(chiffre);
+
+            if (lang === 'ar-MA') {
+                lang = 'ar-SA';  // Utiliser l'arabe standard si l'arabe marocain n'est pas disponible
+            }
+
+            utterThis.lang = lang;
+            synth.speak(utterThis);
+        }
+
+        // Fonction pour choisir les chiffres en fonction de la langue
+        function getChiffresEnLettres() {
+            if (currentLang === 'fr') return chiffresEnLettresFR;
+            if (currentLang === 'en') return chiffresEnLettresEN;
+            if (currentLang === 'ar') return chiffresEnLettresAR;
+        }
+
+        // Générer les lignes du tableau selon la langue choisie
+        function generateTable() {
+            tableBody.innerHTML = '';  // Vider le tableau avant de générer
+            const chiffres = getChiffresEnLettres();
+            for (let i = 0; i <= 100; i++) {
+                const row = document.createElement("tr");
+
+                const numberCell = document.createElement("td");
+                numberCell.textContent = i;
+
+                const letterCell = document.createElement("td");
+                letterCell.textContent = chiffres[i];
+
+                // Ajouter un événement de clic pour lire le chiffre
+                letterCell.addEventListener("click", function() {
+                    lireChiffre(chiffres[i], currentLang === 'fr' ? 'fr-FR' : currentLang === 'en' ? 'en-US' : 'ar-MA');
+                });
+
+                row.appendChild(numberCell);
+                row.appendChild(letterCell);
+                tableBody.appendChild(row);
+            }
+        }
+
+        // Mettre à jour la langue et régénérer le tableau
+        document.getElementById('languageSelector').addEventListener('change', function() {
+            currentLang = this.value;
+            generateTable();
+        });
+
+        generateTable();  // Générer le tableau au chargement
+    </script>
+
+</body>
+</html>
